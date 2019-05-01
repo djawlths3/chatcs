@@ -19,14 +19,14 @@ public class ChatServerReceive implements Runnable {
 		try {
 			BufferedReader br = new BufferedReader( new InputStreamReader(socket.getInputStream(),"utf-8") );
 			PrintWriter pw = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); // true 값은 자동으로 flush 해주는 기능
-			pw.println("닉네임을 입력하세요 : ");
-			String nickName = br.readLine();
+			//pw.println("닉네임을 입력하세요 : ");
 			//닉네임 중복체크
+			String nickName = br.readLine();
 			while( (client.clientManage.containsKey(nickName)) ) {
 				pw.println("중복되는 닉네임이 있습니다. 아이디를 다시 입력하세요 : ");
 				nickName = br.readLine();				
 			}
-			pw.println(nickName);
+			// pw.println(nickName);
 			client.AddClient(nickName, pw);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -45,7 +45,9 @@ public class ChatServerReceive implements Runnable {
 			PrintWriter pr = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); // true 값은 자동으로 flush 해주는 기능
 			while(true) {
 				String data = br.readLine();
-				client.sendMsg(data, "임시아이디", null);
+				String[] msg = data.split(",,//,/");
+				String message = arrToString(msg);
+				client.sendMsg(message, msg[0], null);
 			}
 			
 		}catch (UnsupportedEncodingException e) {
@@ -55,6 +57,19 @@ public class ChatServerReceive implements Runnable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	// 아이디랑 메시지 분리
+	public String arrToString(String[] arr) {
+		int arrLength = arr.length;
+		String message = "";
+		for(int i=1; i<arrLength; i++) {
+			message += arr[i];
+			if( i != (arrLength -1) ) {
+				message += " ";
+			}
+		}
+		return message;
 	}
 
 }

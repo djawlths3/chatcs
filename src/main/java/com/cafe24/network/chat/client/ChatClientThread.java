@@ -12,7 +12,8 @@ import java.net.Socket;
 import java.util.Scanner;
 
 public class ChatClientThread {
-	private static final String SERVER_IP = "192.168.1.23";
+	//private static final String SERVER_IP = "192.168.1.23";
+	private static final String SERVER_IP = "192.168.219.100";
 	private static final int SERVER_PORT = 7000;
 	
 	public static void main(String[] args) {
@@ -28,23 +29,22 @@ public class ChatClientThread {
 			// 2. server connect			
 			socket.connect(new InetSocketAddress(SERVER_IP,SERVER_PORT));
 			BufferedReader br = new BufferedReader( new InputStreamReader(socket.getInputStream(),"utf-8") );
-			System.out.println(br.readLine());
-			PrintWriter pr = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); // true 값은 자동으로 flush 해주는 기능
-			String line = sanner.nextLine();
-			pr.println(line);
+			System.out.print("닉네임을 입력하세요 : ");
+			String nickName = sanner.nextLine();
+			PrintWriter pw = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); // true 값은 자동으로 flush 해주는 기능
+			pw.println(nickName);
+			Thread send = new Thread(new ClientSend(pw,nickName));
+			send.start();
 			while(true) {
-				//5. 키보드 입력 받기
-				System.out.print(">>");
-				line = sanner.nextLine();
-				if("quit".contentEquals(line)) {
-					pr.println("quit");
-					break;
-				}
-				
-				//6.data write
-				pr.println(line);
 				String data = br.readLine();
 				System.out.println(data);
+				//5. 키보드 입력 받기
+				//System.out.print(">>");
+//				String line = sanner.nextLine();
+//				if("quit".contentEquals(line)) {
+//					pw.println("quit");
+//					break;
+//				}
 			}
 			
 		} catch (IOException e) {
