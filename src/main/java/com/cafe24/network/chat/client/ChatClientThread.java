@@ -33,6 +33,13 @@ public class ChatClientThread {
 			String nickName = sanner.nextLine();
 			PrintWriter pw = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); // true 값은 자동으로 flush 해주는 기능
 			pw.println(nickName);
+			String idCheck = br.readLine();
+			// 닉네임 중복 Check
+			while( !("ok".equals(idCheck)) ) {
+				System.out.println(idCheck);
+				pw.println( sanner.nextLine());
+				idCheck = br.readLine();
+			}
 			Thread send = new Thread(new ClientSend(pw,nickName));
 			send.start();
 			while(true) {

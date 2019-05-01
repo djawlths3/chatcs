@@ -19,7 +19,7 @@ public class ClientSend implements Runnable{
 		sanner = new Scanner(System.in);
 		while(true) {
 			String line = sanner.nextLine();
-			pw.println(nickName +",,//,/" +line);
+			pw.println(nickName +",,//,;" +line);
 			if("quit".equals(line)) {
 				sanner.close();
 				break;

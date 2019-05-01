@@ -26,7 +26,7 @@ public class ChatServerReceive implements Runnable {
 				pw.println("중복되는 닉네임이 있습니다. 아이디를 다시 입력하세요 : ");
 				nickName = br.readLine();				
 			}
-			// pw.println(nickName);
+			pw.println("ok");
 			client.AddClient(nickName, pw);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
@@ -45,9 +45,12 @@ public class ChatServerReceive implements Runnable {
 			PrintWriter pr = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); // true 값은 자동으로 flush 해주는 기능
 			while(true) {
 				String data = br.readLine();
-				String[] msg = data.split(",,//,/");
+				String[] msg = data.split(",,//,;");
 				String message = arrToString(msg);
 				client.sendMsg(message, msg[0], null);
+				if("/quit".equals(message)) {
+					client.RemoveClient(msg[0]);
+				}
 			}
 			
 		}catch (UnsupportedEncodingException e) {

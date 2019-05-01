@@ -26,9 +26,8 @@ public class ChatClient {
 	public synchronized void RemoveClient(String name)  
     {
         try {
-        	clientManage.remove(name);
-           sendMsg(name + " 퇴장하셨습니다.", name, null);
-            System.out.println("접속 인원 : "+clientManage.size());
+        	sendMsg(name+"님 퇴장하셨습니다. 총 접속 인원 : "+(clientManage.size() -1) +"\n",name,null);
+        	clientManage.remove(name);            
         }catch(Exception e) {}
     }
 	
