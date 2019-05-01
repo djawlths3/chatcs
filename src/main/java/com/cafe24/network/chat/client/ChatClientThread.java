@@ -27,18 +27,15 @@ public class ChatClientThread {
 			
 			// 2. server connect			
 			socket.connect(new InetSocketAddress(SERVER_IP,SERVER_PORT));
-
-			// 3. IOStream 받아오기
-			InputStream is = socket.getInputStream();
-			OutputStream os = socket.getOutputStream();
-			
 			BufferedReader br = new BufferedReader( new InputStreamReader(socket.getInputStream(),"utf-8") );
+			System.out.println(br.readLine());
 			PrintWriter pr = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); // true 값은 자동으로 flush 해주는 기능
-			
+			String line = sanner.nextLine();
+			pr.println(line);
 			while(true) {
 				//5. 키보드 입력 받기
 				System.out.print(">>");
-				String line = sanner.nextLine();
+				line = sanner.nextLine();
 				if("quit".contentEquals(line)) {
 					pr.println("quit");
 					break;
@@ -46,15 +43,8 @@ public class ChatClientThread {
 				
 				//6.data write
 				pr.println(line);
-				
-				//7. data read
 				String data = br.readLine();
-				if(data == null) {
-					break;
-				}
-				
-				// 8. console print
-				System.out.println("<< "+ data);
+				System.out.println(data);
 			}
 			
 		} catch (IOException e) {
