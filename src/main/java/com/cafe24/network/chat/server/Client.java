@@ -6,7 +6,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
 
-public class ChatClient {
+public class Client {
 	static HashMap<String, PrintWriter> clientManage = new HashMap<String, PrintWriter>();
 	
 

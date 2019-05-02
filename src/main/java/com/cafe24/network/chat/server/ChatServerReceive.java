@@ -10,16 +10,15 @@ import java.net.Socket;
 
 public class ChatServerReceive implements Runnable {
 	public static Socket socket = null;
-	public static ChatClient client = new ChatClient();
+	public static Client client = new Client();
 
 	
-	public ChatServerReceive(ChatClient client, Socket socket) {
+	public ChatServerReceive(Client client, Socket socket) {
 		this.client = client;
 		this.socket = socket;
 		try {
 			BufferedReader br = new BufferedReader( new InputStreamReader(socket.getInputStream(),"utf-8") );
-			PrintWriter pw = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); // true 값은 자동으로 flush 해주는 기능
-			//pw.println("닉네임을 입력하세요 : ");
+			PrintWriter pw = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); 
 			//닉네임 중복체크
 			String nickName = br.readLine();
 			while( (client.clientManage.containsKey(nickName)) ) {
@@ -42,7 +41,7 @@ public class ChatServerReceive implements Runnable {
 		
 		try {
 			BufferedReader br = new BufferedReader( new InputStreamReader(socket.getInputStream(),"utf-8") );
-			PrintWriter pr = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); // true 값은 자동으로 flush 해주는 기능
+			PrintWriter pr = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); 
 			while(true) {
 				String data = br.readLine();
 				String[] msg = data.split(",,//,;");

@@ -5,8 +5,8 @@ import java.util.Scanner;
 
 public class ClientSend implements Runnable{
 
-	public static PrintWriter pw = null;
-	public static String nickName = null;
+	private static PrintWriter pw = null;
+	private static String nickName = null;
 	
 	public ClientSend(PrintWriter pw, String nickName) {
 		this.pw = pw;

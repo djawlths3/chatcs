@@ -6,12 +6,12 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketAddress;
 
-public class ChatServerThread {
+public class ChatServerMain {
 	private static final int PORT = 7000;
 	
 	public static void main(String[] args) {
 		ServerSocket serverSocket =null;
-		ChatClient client = new ChatClient();
+		Client client = new Client();
 		
 		try {
 			serverSocket = new ServerSocket();
