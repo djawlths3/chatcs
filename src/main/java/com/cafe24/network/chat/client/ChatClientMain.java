@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class ChatClientMain {
 	private static final String SERVER_IP = "192.168.1.23";
 	private static final int SERVER_PORT = 7000;
+	private static final String DEVICE_KEY = ",,//,;";
 	
 	public static void main(String[] args) {
 		Scanner sanner = null;
@@ -29,16 +30,15 @@ public class ChatClientMain {
 			String nickName = sanner.nextLine();
 			
 			//아이디랑 메세지 내용 구분하는구분자 체크
-			if(",,//,;".equals(nickName)) {
-				System.out.println("이 문자는 사용하실 수 없습니다. 다시 입력하세요:");
+			//아이디랑 메세지 내용 구분하는구분자 체크
+			if(DEVICE_KEY.equals(nickName)) {
+				System.out.println("이문자는 사용하실 수 없습니다. 다시 입력하세요:");
 				nickName = sanner.nextLine();
 			}
 			
 			PrintWriter pw = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); 
 			pw.println(nickName);
 			// gui 실행, send 기능도 이곳에 구현
-			ChatWindow cw = new ChatWindow(nickName, pw, nickName);
-			cw.show();
 			String nickNameCheck = br.readLine();
 			// 3.닉네임 중복 Check
 			while( !("ok".equals(nickNameCheck)) ) {
@@ -47,6 +47,8 @@ public class ChatClientMain {
 				pw.println(nickName);
 				nickNameCheck = br.readLine();
 			}
+			ChatWindow cw = new ChatWindow(nickName, pw, nickName);
+			cw.show();
 
 			while(true) {
 				//5.읽기만 실행
