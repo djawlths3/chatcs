@@ -33,8 +33,9 @@ public class ChatClientMain {
 				System.out.println("이문자는 사용하실 수 없습니다. 다시 입력하세요:");
 				nickName = sanner.nextLine();
 			}
-
+			
 			PrintWriter pw = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); 
+			nickName = nickName.replaceAll("\\p{Z}","");
 			pw.println(nickName);
 			// gui 실행, send 기능도 이곳에 구현
 			ChatWindow cw = new ChatWindow(nickName, pw, nickName);
