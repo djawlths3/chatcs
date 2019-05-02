@@ -23,7 +23,7 @@ public class ChatWindow {
 	private TextArea textArea;
 	private static PrintWriter pw = null;
 	private static String nickName = null;
-
+	private static final String DEVICE_KEY = ",,//,;";
 	public void printMessage(String msg) {
 		this.textArea.append(msg+"\r\n");
 	}
@@ -34,6 +34,9 @@ public class ChatWindow {
 		pw.println(nickName +",,//,;" +message);
 		textField.setText("");
 		textField.requestFocus();
+		if("/quit".equals(message)) {
+			finish();
+		}
 	}
 
 	public ChatWindow(String name, PrintWriter pw, String nickName) {
@@ -47,6 +50,7 @@ public class ChatWindow {
 	}
 
 	private void finish() {
+			pw.println(nickName +DEVICE_KEY +"/quit");
 			System.out.println("..........");
 			System.exit(0);
 	}

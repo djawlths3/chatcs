@@ -48,9 +48,9 @@ public class ChatClientMain {
 				pw.println(nickName);
 				nickNameCheck = br.readLine();
 			}
-			// 4.쓰기만 실행
-			Thread send = new Thread(new ClientSend(pw,nickName));
-			send.start();
+//			// 4.쓰기만 실행
+//			Thread send = new Thread(new ClientSend(pw,nickName));
+//			send.start();
 			while(true) {
 				//5.읽기만 실행
 				String data = br.readLine();

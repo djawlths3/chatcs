@@ -11,7 +11,7 @@ import java.net.Socket;
 public class ChatServerReceive implements Runnable {
 	public static Socket socket = null;
 	public static Client client = new Client();
-
+	private static final String DEVICE_KEY = ",,//,;";
 	
 	public ChatServerReceive(Client client, Socket socket) {
 		this.client = client;
@@ -44,12 +44,21 @@ public class ChatServerReceive implements Runnable {
 			PrintWriter pr = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); 
 			while(true) {
 				String data = br.readLine();
-				String[] msg = data.split(",,//,;");
+				String[] msg = data.split(DEVICE_KEY);
 				String message = arrToString(msg);
-				client.sendMsg(message, msg[0], null);
-				if("/quit".equals(message)) {
-					client.RemoveClient(msg[0]);
-				}
+				String nickName = msg[0];
+				// 채팅창 특수 기능 구현
+				if("/".equals(message.substring(0, 1))) {
+					
+					if("/quit".equals(message)) {
+						client.RemoveClient(nickName);
+						break;
+					} else if("/W".equals(message.split(" ")[0])) {
+						System.out.println("귓속말 기능 확장");
+					}
+					
+				}	
+				client.sendMsg(message, nickName, null);
 			}
 			
 		}catch (UnsupportedEncodingException e) {
