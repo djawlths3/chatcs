@@ -24,13 +24,19 @@ public class ChatWindow {
 	private static PrintWriter pw = null;
 	private static String nickName = null;
 	private static final String DEVICE_KEY = ",,//,;";
+	
+	// 서버에서 온 메시지를 내 창에 표시한다
 	public void printMessage(String msg) {
 		this.textArea.append(msg+"\r\n");
 	}
 	
+	//내가 쓴 문자를 전달한다.
 	public void writeMessage() {
 		String message = "";
 		message = this.textField.getText();
+		if(message == null || "".equals(message)) {
+			return;
+		}
 		pw.println(nickName +",,//,;" +message);
 		textField.setText("");
 		textField.requestFocus();
@@ -38,7 +44,8 @@ public class ChatWindow {
 			finish();
 		}
 	}
-
+	
+	//생성자
 	public ChatWindow(String name, PrintWriter pw, String nickName) {
 		frame = new Frame(name);
 		pannel = new Panel();
@@ -48,13 +55,14 @@ public class ChatWindow {
 		this.pw = pw;
 		this.nickName = nickName;
 	}
-
+	
+	//종료
 	private void finish() {
 			pw.println(nickName +DEVICE_KEY +"/quit");
 			System.out.println("..........");
 			System.exit(0);
 	}
-
+	//GUI 창을 띄움
 	public void show() {
 		// Button
 		buttonSend.setBackground(Color.GRAY);
@@ -95,7 +103,5 @@ public class ChatWindow {
 		frame.setVisible(true);
 		frame.pack();
 	}
-	
-	private void sendMessage() {
-	}
+
 }

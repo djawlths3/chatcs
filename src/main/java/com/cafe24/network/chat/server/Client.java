@@ -1,9 +1,6 @@
 package com.cafe24.network.chat.server;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.HashMap;
 
 public class Client {
@@ -16,7 +13,7 @@ public class Client {
     {                                                                        
         try {
         	clientManage.put(name,pw);
-            sendMsg(name+"님 입장하셨습니다. 총 접속 인원 : "+clientManage.size()+"\n",name,null);
+            sendMsg(name+"님 입장하셨습니다. 총 접속 인원 : "+clientManage.size()+"\n","ALL",null);
         }catch(Exception e){
         	e.printStackTrace();
         }
@@ -33,15 +30,29 @@ public class Client {
 	
 	// 메세지 보냄
 	static synchronized void sendMsg(String msg, String nickName, String tgNickName) {
-		//clientManage.get(nickName).println(msg.getBytes());
 		if(tgNickName == null) {
 			for(String key :clientManage.keySet()) {
 				clientManage.get(key).println(nickName+" : "+msg);
 			}			
 		} else {
 			//귓속말 기능
-			clientManage.get(tgNickName).println(nickName+": "+msg.getBytes());
+			String message = arrToString(msg.split(" "));
+			clientManage.get(tgNickName).println(nickName+"(귓속말): "+message);
+			
 		}
 	}	
+	
+	// 명령어 메시지 분리
+		public static String arrToString(String[] arr) {
+			int arrLength = arr.length;
+			String message = "";
+			for(int i=2; i<arrLength; i++) {
+				message += arr[i];
+				if( i != (arrLength -1) ) {
+					message += " ";
+				}
+			}
+			return message;
+		}
 	
 }

@@ -25,14 +25,13 @@ public class ChatServerReceive implements Runnable {
 				pw.println("중복되는 닉네임이 있습니다. 아이디를 다시 입력하세요 : ");
 				nickName = br.readLine();				
 			}
-			pw.println("ok");
-			client.AddClient(nickName, pw);
+			pw.println("ok"); //서버접속 확인
+			client.AddClient(nickName, pw); //사용자 추가
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		
 	}
 	
@@ -49,23 +48,29 @@ public class ChatServerReceive implements Runnable {
 				String nickName = msg[0];
 				// 채팅창 특수 기능 구현
 				if("/".equals(message.substring(0, 1))) {
-					
+					//종료
 					if("/quit".equals(message)) {
 						client.RemoveClient(nickName);
 						break;
-					} else if("/W".equals(message.split(" ")[0])) {
-						System.out.println("귓속말 기능 확장");
+					} else if("/W".equals(message.split(" ")[0]) || "/w".equals(message.split(" ")[0])) { 
+						//귓속말 기능
+						String tgNickName = message.split(" ")[1];
+						if( !(client.clientManage.containsKey(tgNickName)) ) {
+							client.sendMsg("/w remove 해당 사용자가 없습니다", nickName, nickName);
+						} else {
+							client.sendMsg(message, nickName, tgNickName);							
+						}
 					}
 					
-				}	
-				client.sendMsg(message, nickName, null);
+				}else {
+					//사용자들에게 메세지 전송
+					client.sendMsg(message, nickName, null);					
+				}
 			}
 			
 		}catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

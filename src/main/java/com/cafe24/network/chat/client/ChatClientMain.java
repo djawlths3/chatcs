@@ -33,11 +33,10 @@ public class ChatClientMain {
 				System.out.println("이문자는 사용하실 수 없습니다. 다시 입력하세요:");
 				nickName = sanner.nextLine();
 			}
-			
-			// cw.sendMessage();
-			PrintWriter pw = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); // true 값은 자동으로 flush 해주는 기능
+
+			PrintWriter pw = new PrintWriter( new OutputStreamWriter(socket.getOutputStream(), "utf-8"), true ); 
 			pw.println(nickName);
-			// gui 실행
+			// gui 실행, send 기능도 이곳에 구현
 			ChatWindow cw = new ChatWindow(nickName, pw, nickName);
 			cw.show();
 			String nickNameCheck = br.readLine();
@@ -48,13 +47,10 @@ public class ChatClientMain {
 				pw.println(nickName);
 				nickNameCheck = br.readLine();
 			}
-//			// 4.쓰기만 실행
-//			Thread send = new Thread(new ClientSend(pw,nickName));
-//			send.start();
+
 			while(true) {
 				//5.읽기만 실행
 				String data = br.readLine();
-				// System.out.println(data);
 				cw.printMessage(data);
 			}
 			
